@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
-const cardSchema = new mongoose.Schema({
+const linkSchema = new mongoose.Schema({
   name: {
     type: String,
     required: 'Please check your name',
@@ -11,12 +11,14 @@ const cardSchema = new mongoose.Schema({
   position: {
     type: Number,
   },
-  color: {
+  icon: {
     type: String,
   },
-  boardId: {
+  cardId: {
     type: Schema.Types.ObjectId,
   },
-  links: [{ type: Schema.Types.ObjectId, ref: 'Link' }],
+  tag: {
+    type: String,
+  }
 });
-module.exports = mongoose.model('Card', cardSchema);
+module.exports = mongoose.model('Link', linkSchema);

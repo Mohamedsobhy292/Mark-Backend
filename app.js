@@ -5,16 +5,22 @@ import express from 'express';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 
+
 // import favicon from 'serve-favicon';
 import path from 'path';
 // Models
 import './models/card';
+import './models/board';
+import './models/link';
 
 import index from './routes/index';
 
 const app = express();
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config')[env];
 
-mongoose.connect('mongodb://localhost/marky', {
+
+mongoose.connect(config.database.url, {
   useMongoClient: true,
 });
 
