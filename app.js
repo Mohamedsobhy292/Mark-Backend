@@ -14,6 +14,7 @@ import './models/board';
 import './models/link';
 
 import index from './routes/index';
+import boards from './routes/boards';
 
 const app = express();
 const env = process.env.NODE_ENV || 'development';
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', index);
+app.use('/boards', boards);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
