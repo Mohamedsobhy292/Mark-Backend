@@ -9,15 +9,16 @@ exports.gettingBoards = async function (req, res) {
 
 exports.gettingSingleBoard = async function (req, res) {
   const id = req.params.id;
-  const board = await Board.findOne({ _id: id });
+  const board = await Board.findOne({ _id: id }).catch(e => ({ error: 500, message: e }));
   res.json(board);
 };
 
-exports.addBoard = async function (req) {
-  const board = new Board({
+exports.addBoard = async function (req, res) {
+  const board = await new Board({
     name: req.body.name,
     userId: 1,
   });
-  board.save();
+  await board.save().catch(e => ({ error: 500, message: e }));
+  res.end();
 };
 

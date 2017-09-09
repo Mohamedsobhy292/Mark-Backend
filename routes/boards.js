@@ -12,7 +12,7 @@ router.get('/', catchErrors(boardCtrl.gettingBoards));
 router.get('/board/:id', boardCtrl.gettingSingleBoard);
 
 /* CREATE BOARD */
-router.post('/add', catchErrors(boardCtrl.addBoard));
+router.post('/add', boardCtrl.addBoard);
 
 
 export default router;
