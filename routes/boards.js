@@ -1,14 +1,18 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import boardCtrl from '../controllers/board-controller';
+import { catchErrors } from '../helpers';
 
-const Board = mongoose.model('Board');
 const router = express.Router();
 
 /* GET ALL BOARDS. */
-router.get('/', boardCtrl.gettingBoards);
+router.get('/', catchErrors(boardCtrl.gettingBoards));
 
 /* GET SINGLE BOARD. */
-router.get('/:id', boardCtrl.gettingSingleBoard);
+router.get('/board/:id', boardCtrl.gettingSingleBoard);
+
+/* CREATE BOARD */
+router.post('/add', catchErrors(boardCtrl.addBoard));
+
 
 export default router;

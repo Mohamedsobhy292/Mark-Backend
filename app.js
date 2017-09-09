@@ -11,7 +11,6 @@ import path from 'path';
 // Models
 import './models/card';
 import './models/board';
-import './models/link';
 
 import index from './routes/index';
 import boards from './routes/boards';

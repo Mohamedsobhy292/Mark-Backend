@@ -12,3 +12,12 @@ exports.gettingSingleBoard = async function (req, res) {
   const board = await Board.findOne({ _id: id });
   res.json(board);
 };
+
+exports.addBoard = async function (req) {
+  const board = new Board({
+    name: req.body.name,
+    userId: 1,
+  });
+  board.save();
+};
+

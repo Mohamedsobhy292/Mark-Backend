@@ -7,7 +7,7 @@ const router = express.Router();
 
 /* GET index page. */
 router.get('/', async (req, res) => {
-  const board = await Board.find().populate('cards');
+  const board = await Board.find();
   res.json(board);
 });
 
