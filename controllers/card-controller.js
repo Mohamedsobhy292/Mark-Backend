@@ -1,14 +1,28 @@
+/* eslint no-underscore-dangle: "off" */
+
+
 import mongoose from 'mongoose';
 
 const Card = mongoose.model('Card');
 const Board = mongoose.model('Board');
 
-exports.gettingCards = async function (req, res) {
+exports.gettingCards = async function gettingCards(req, res) {
   const card = await Card.find();
   res.json(card);
 };
 
-exports.addCard = async function (req, res) {
+exports.gettingSingleCard = async function gettingCards(req, res) {
+  const id = req.params.id;
+  try {
+    const card = await Card.findOne({ _id: id });
+    res.json(card);
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};
+
+
+exports.addCard = async function addCard(req, res) {
   const card = new Card({
     name: req.body.name,
     position: req.body.position,
