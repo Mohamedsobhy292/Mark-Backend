@@ -30,3 +30,32 @@ exports.addBoard = async function addBoard(req, res) {
   }
 };
 
+exports.deleteboard = async function deleteboard(req, res) {
+  const id = req.params.id;
+  try {
+    const deletedboard = await Board.deleteOne({ _id: id });
+    res.json(deletedboard);
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};
+
+exports.editboard = async function editboard(req, res) {
+  const id = req.params.id;
+  const board = {
+    name: req.body.name,
+    position: req.body.position,
+    color: req.body.color,
+    boardId: req.body.boardId,
+    private: req.body.private,
+  };
+  try {
+    await Board.findOneAndUpdate(
+      { _id: id },
+      { $set: board },
+    );
+    res.json(board);
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};

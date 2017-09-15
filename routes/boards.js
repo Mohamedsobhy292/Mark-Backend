@@ -14,5 +14,11 @@ router.get('/board/:id', boardCtrl.gettingSingleBoard);
 /* CREATE BOARD */
 router.post('/add', boardCtrl.addBoard);
 
+/* EDIT BOARD */
+router.patch('/board/:id', boardCtrl.editboard);
+
+/* DELETE BOARD */
+router.delete('/board/:id', boardCtrl.deleteboard);
+
 
 export default router;
