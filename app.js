@@ -13,6 +13,7 @@ import './models/card';
 import './models/board';
 
 import index from './routes/index';
+import cards from './routes/cards';
 import boards from './routes/boards';
 
 const app = express();
@@ -46,6 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/boards', boards);
+app.use('/cards', cards);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

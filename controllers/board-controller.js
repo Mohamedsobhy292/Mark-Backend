@@ -13,7 +13,7 @@ exports.gettingSingleBoard = async function (req, res) {
     const board = await Board.findOne({ _id: id });
     res.json(board);
   } catch (e) {
-    res.status(404).send({ error: 404, message: e })
+    res.status(400).send({ error: 400, message: e })
   }
 };
 
@@ -26,7 +26,7 @@ exports.addBoard = async function (req, res) {
     await board.save();
     res.json(board);
   } catch (e) {
-    res.status(500).send({ message: e.errors.name.message });
+    res.status(400).send({ message: e.errors.name.message });
   }
 };
 
