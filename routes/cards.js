@@ -8,15 +8,18 @@ const router = express.Router();
 router.get('/', catchErrors(cardCtrl.gettingCards));
 
 /* GET SINGLE CARD. */
-router.get('/card/:id', cardCtrl.gettingSingleCard);
+router.get('/:id', cardCtrl.gettingSingleCard);
 
 /* ADD CARD */
 router.post('/add', cardCtrl.addCard);
 
 /* DELETE CARD */
-router.delete('/card/:id', cardCtrl.deleteCard);
+router.delete('/:id', cardCtrl.deleteCard);
 
 /* EDIT CARD */
-router.patch('/card/:id', cardCtrl.editCard);
+router.patch('/:id', cardCtrl.editCard);
+
+/* MOVING CARD */
+router.patch('/move/:id', cardCtrl.movingCard);
 
 export default router;

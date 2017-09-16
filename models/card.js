@@ -16,6 +16,7 @@ const cardSchema = new mongoose.Schema({
   },
   boardId: {
     type: Schema.Types.ObjectId,
+    required: 'Pleaae specify board id',
   },
   links: [{ type: Schema.Types.ObjectId, ref: 'Link' }],
 });
