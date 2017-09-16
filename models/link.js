@@ -16,9 +16,15 @@ const linkSchema = new mongoose.Schema({
   },
   cardId: {
     type: Schema.Types.ObjectId,
+    ref: 'Board',
   },
   tag: {
     type: String,
+  },
+  url: {
+    type: String,
+    required: 'Please check your url',
+    trim: true,
   }
 });
 module.exports = mongoose.model('Link', linkSchema);

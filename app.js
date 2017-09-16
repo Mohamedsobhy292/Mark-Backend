@@ -11,10 +11,12 @@ import path from 'path';
 // Models
 import './models/card';
 import './models/board';
+import './models/link';
 
 import index from './routes/index';
 import cards from './routes/cards';
 import boards from './routes/boards';
+import links from './routes/links';
 
 const app = express();
 const env = process.env.NODE_ENV || 'development';
@@ -48,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/boards', boards);
 app.use('/cards', cards);
+app.use('/links', links);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
