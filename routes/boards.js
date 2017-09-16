@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import boardCtrl from '../controllers/board-controller';
 import { catchErrors } from '../helpers';
 

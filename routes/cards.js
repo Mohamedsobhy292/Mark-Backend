@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import cardCtrl from '../controllers/card-controller';
 import { catchErrors } from '../helpers';
 
