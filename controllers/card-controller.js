@@ -58,7 +58,7 @@ exports.editCard = async function editCard(req, res) {
     Card.findOneAndUpdate(
       { _id: id },
       { $set: req.body },
-      {new: true},
+      { new: true },
       (err, card) => {
         res.json(card);
       },
@@ -68,3 +68,18 @@ exports.editCard = async function editCard(req, res) {
   }
 };
 
+exports.movingCard = async function movingCard(req, res) {
+  const id = req.params.id;
+  try {
+    Card.findOneAndUpdate(
+      { _id: id },
+      { $set: { position: req.body.position }},
+      { new: true },
+      (err, card) => {
+        res.json(card);
+      },
+    );
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};
