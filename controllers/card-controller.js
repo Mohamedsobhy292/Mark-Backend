@@ -42,3 +42,12 @@ exports.addCard = async function addCard(req, res) {
   }
 };
 
+exports.deleteCard = async function deleteCard(req, res) {
+  const id = req.params.id;
+  try {
+    const deletedcard = await Card.deleteOne({ _id: id });
+    res.json(deletedcard);
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};

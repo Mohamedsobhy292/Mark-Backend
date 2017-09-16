@@ -13,4 +13,7 @@ router.get('/card/:id', cardCtrl.gettingSingleCard);
 /* ADD CARD */
 router.post('/add', cardCtrl.addCard);
 
+/* DELETE CARD */
+router.delete('/card/:id', cardCtrl.deleteCard);
+
 export default router;
