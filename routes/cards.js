@@ -16,4 +16,7 @@ router.post('/add', cardCtrl.addCard);
 /* DELETE CARD */
 router.delete('/card/:id', cardCtrl.deleteCard);
 
+/* EDIT CARD */
+router.patch('/card/:id', cardCtrl.editCard);
+
 export default router;

@@ -51,3 +51,20 @@ exports.deleteCard = async function deleteCard(req, res) {
     res.status(400).send({ error: 400, message: e });
   }
 };
+
+exports.editCard = async function editCard(req, res) {
+  const id = req.params.id;
+  try {
+    Card.findOneAndUpdate(
+      { _id: id },
+      { $set: req.body },
+      {new: true},
+      (err, card) => {
+        res.json(card);
+      },
+    );
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};
+
