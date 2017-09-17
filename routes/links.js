@@ -1,6 +1,4 @@
 import express from 'express';
-import cheerio from 'cheerio';
-import request from 'request';
 import linkCtrl from '../controllers/link-controller';
 
 const router = express.Router();

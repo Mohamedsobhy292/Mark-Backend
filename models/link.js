@@ -16,7 +16,9 @@ const linkSchema = new mongoose.Schema({
   },
   cardId: {
     type: Schema.Types.ObjectId,
-    ref: 'Board',
+    ref: 'Card',
+    required: 'Card Id is required',
+
   },
   tag: {
     type: String,
