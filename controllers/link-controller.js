@@ -11,6 +11,16 @@ exports.getLinks = async function getLinks(req, res) {
   res.json(links);
 };
 
+exports.gettingSingleLink = async function gettingSingleLink(req, res) {
+  const id = req.params.id;
+  try {
+    const link = await Link.findOne({ _id: id });
+    res.json(link);
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};
+
 
 exports.addingLink = async function addingLink(req, res) {
   const link = new Link({
@@ -55,7 +65,7 @@ exports.movingLink = async function movingLink(req, res) {
       async (err, link) => {
         // remove id from card
         await Card.findOneAndUpdate(
-          { _id: link['cardId'] },
+          { _id: link.cardId },
           { $pull: { links: id } },
         );
         Card.findOneAndUpdate(
@@ -65,6 +75,16 @@ exports.movingLink = async function movingLink(req, res) {
         );
       },
     );
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};
+
+exports.deleteLink = async function deleteLink(req, res) {
+  const id = req.params.id;
+  try {
+    const deletedlink = await Link.deleteOne({ _id: id });
+    res.json(deletedlink);
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
   }
