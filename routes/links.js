@@ -10,5 +10,8 @@ router.get('/', linkCtrl.getLinks);
 /* ADD LINK. */
 router.post('/', linkCtrl.addingLink);
 
+/* MOVE LINK. */
+router.patch('/move/:id', linkCtrl.movingLink);
+
 
 export default router;

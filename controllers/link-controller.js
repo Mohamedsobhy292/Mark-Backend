@@ -45,3 +45,27 @@ exports.addingLink = async function addingLink(req, res) {
     }
   });
 };
+
+exports.movingLink = async function movingLink(req, res) {
+  const id = req.params.id;
+  try {
+    await Link.findOneAndUpdate(
+      { _id: id },
+      { $set: { position: req.body.position, cardId: req.body.cardId } },
+      async (err, link) => {
+        // remove id from card
+        await Card.findOneAndUpdate(
+          { _id: link['cardId'] },
+          { $pull: { links: id } },
+        );
+        Card.findOneAndUpdate(
+          { _id: req.body.cardId },
+          { $set: { links: id } },
+          async (err3, newcard) => { await res.json(newcard); },
+        );
+      },
+    );
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};
