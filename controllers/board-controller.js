@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
 const Board = mongoose.model('Board');
+const Card = mongoose.model('Card');
+const Link = mongoose.model('Link');
 
 exports.gettingBoards = async function gettingBoards(req, res) {
   const board = await Board.find();
@@ -33,8 +35,23 @@ exports.addBoard = async function addBoard(req, res) {
 exports.deleteboard = async function deleteboard(req, res) {
   const id = req.params.id;
   try {
-    const deletedboard = await Board.deleteOne({ _id: id });
-    res.json(deletedboard);
+    Board.findByIdAndRemove(
+        { _id: id },
+        async (err, board) => {
+          const cardsToDelete = await Card.find({ _id: { $in: board.cards } });
+          await cardsToDelete.forEach(async (card) => {
+            await Link.deleteMany(
+              { _id: { $in: card.links } },
+            );
+          });
+          await Card.deleteMany(
+            { _id: { $in: board.cards } },
+            (err2, deletedCards) => {
+              res.json(deletedCards);
+            }
+          );
+        },
+      );
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
   }

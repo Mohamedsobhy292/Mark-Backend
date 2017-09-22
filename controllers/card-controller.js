@@ -31,7 +31,7 @@ exports.addCard = async function addCard(req, res) {
   });
   try {
     await card.save();
-    Board.findByIdAndUpdate(
+    await Board.findByIdAndUpdate(
       card.boardId,
       { $push: { cards: card._id } },
       { safe: true, new: true },
