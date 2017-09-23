@@ -83,8 +83,17 @@ exports.movingLink = async function movingLink(req, res) {
 exports.deleteLink = async function deleteLink(req, res) {
   const id = req.params.id;
   try {
-    const deletedlink = await Link.deleteOne({ _id: id });
-    res.json(deletedlink);
+    Link.findByIdAndRemove(
+      { _id: id },
+      async (err, link) => {
+          // REMOVE LINK ID FROM CARD ARRAY
+        await Card.findOneAndUpdate(
+          { _id: link.cardId },
+          { $pull: { links: id } },
+        );
+        res.json(link);
+      },
+    );
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
   }
