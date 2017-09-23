@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 
 const Card = mongoose.model('Card');
 const Board = mongoose.model('Board');
+const Link = mongoose.model('Link');
 
 exports.gettingCards = async function gettingCards(req, res) {
   const card = await Card.find();
@@ -45,8 +46,22 @@ exports.addCard = async function addCard(req, res) {
 exports.deleteCard = async function deleteCard(req, res) {
   const id = req.params.id;
   try {
-    const deletedcard = await Card.deleteOne({ _id: id });
-    res.json(deletedcard);
+    // REMOVE CARD
+    Card.findByIdAndRemove(
+      { _id: id },
+      async (err, card) => {
+        // REMOVE CARD ID FROM BOARD ARRAY
+        await Board.findOneAndUpdate(
+          { _id: card.boardId },
+          { $pull: { cards: id } },
+        );
+        // REMOVE LINKS LINKED TO THIS CARD
+        await Link.deleteMany(
+          { _id: { $in: card.links } },
+        );
+        res.json(card);
+      },
+    );
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
   }
