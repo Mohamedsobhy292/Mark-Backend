@@ -80,6 +80,22 @@ exports.movingLink = async function movingLink(req, res) {
   }
 };
 
+exports.editLink = async function editLink(req, res) {
+  const id = req.params.id;
+  try {
+    Link.findOneAndUpdate(
+      { _id: id },
+      { $set: req.body },
+      { new: true },
+      (err, card) => {
+        res.json(card);
+      },
+    );
+  } catch (e) {
+    res.status(400).send({ error: 400, message: e });
+  }
+};
+
 exports.deleteLink = async function deleteLink(req, res) {
   const id = req.params.id;
   try {

@@ -16,6 +16,9 @@ router.post('/', linkCtrl.addingLink);
 /* MOVE LINK. */
 router.patch('/move/:id', linkCtrl.movingLink);
 
+/* MOVE LINK. */
+router.patch('/:id', linkCtrl.editLink);
+
 /* DELETE LINK. */
 router.delete('/:id', linkCtrl.deleteLink);
 

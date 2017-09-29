@@ -15,7 +15,7 @@ exports.gettingCards = async function gettingCards(req, res) {
 exports.gettingSingleCard = async function gettingCards(req, res) {
   const id = req.params.id;
   try {
-    const card = await Card.findOne({ _id: id });
+    const card = await Card.findOne({ _id: id }).populate('links')
     res.json(card);
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
