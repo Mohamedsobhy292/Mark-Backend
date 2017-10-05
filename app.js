@@ -5,18 +5,22 @@ import express from 'express';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 
-
 // import favicon from 'serve-favicon';
 import path from 'path';
-// Models
+// import Models
 import './models/card';
 import './models/board';
 import './models/link';
+import './models/user';
+import passport from './controllers/passport';
+
+// import Routes
 
 import index from './routes/index';
 import cards from './routes/cards';
 import boards from './routes/boards';
 import links from './routes/links';
+import users from './routes/users';
 
 const app = express();
 const env = process.env.NODE_ENV || 'development';
@@ -34,8 +38,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 mongoose.Promise = global.Promise;
 
-// uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// Middlewares
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -47,10 +51,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+// Routes
+
 app.use('/', index);
 app.use('/boards', boards);
 app.use('/cards', cards);
 app.use('/links', links);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
