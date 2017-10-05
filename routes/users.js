@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+import passport from 'passport';
+import userCtrl from '../controllers/user-controller';
+import passportConfig from '../controllers/passport';
+const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+// SIGN UP
+router.post('/', userCtrl.signUp);
+
+// SIGN IN
+router.post('/signin', passport.authenticate('local', { session: false }), userCtrl.signIn);
 
 module.exports = router;
