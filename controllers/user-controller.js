@@ -1,7 +1,7 @@
-import config from '../config';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import config from '../config';
 
 
 const User = mongoose.model('User');
@@ -43,17 +43,7 @@ exports.signUp = function signUp(req, res) {
 };
 
 exports.signIn = async function siginIn(req, res) {
-  const email = req.body.email;
-  const password = req.body.password;
-  if (!email || !password) {
-    res.status(403).send({ error: 403, message: 'check your credintials' });
-  }
-  const user = await User.findOne({ email });
-  if (!user) {
-    res.status(403).send({ error: 403, message: 'check your credintials' });
-  }
-  bcrypt.compare(password, user.password, async (err, result) => {
-    const token = await signToken(user);
-    res.json(token);
-  });
+  const user = req.user;
+  const token = signToken(user);
+  res.json({ token });
 };
