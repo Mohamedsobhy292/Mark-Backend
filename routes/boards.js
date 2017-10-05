@@ -1,11 +1,13 @@
 import express from 'express';
 import boardCtrl from '../controllers/board-controller';
 import { catchErrors } from '../helpers';
+import passport from 'passport';
+import passportConfig from '../controllers/passport';
 
 const router = express.Router();
 
 /* GET ALL BOARDS. */
-router.get('/', catchErrors(boardCtrl.gettingBoards));
+router.get('/', passport.authenticate('jwt', { session: false }), catchErrors(boardCtrl.gettingBoards));
 
 /* GET SINGLE BOARD. */
 router.get('/:id', boardCtrl.gettingSingleBoard);

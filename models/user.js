@@ -18,6 +18,6 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.verifyPassword = function verifyPassword(password) {
   return bcrypt.compare(password, this.password);
-}
+};
 
 module.exports = mongoose.model('User', userSchema);
