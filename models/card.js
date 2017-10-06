@@ -8,6 +8,10 @@ const cardSchema = new mongoose.Schema({
     required: 'Please check your name',
     trim: true,
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    required: 'no user specified',
+  },
   position: {
     type: Number,
   },
