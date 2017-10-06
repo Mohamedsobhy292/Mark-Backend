@@ -12,7 +12,7 @@ import './models/card';
 import './models/board';
 import './models/link';
 import './models/user';
-import passport from './controllers/passport';
+import passportConfig from './controllers/passport';
 
 // import Routes
 
