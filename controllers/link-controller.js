@@ -107,8 +107,8 @@ exports.editLink = async function editLink(req, res) {
       { _id: id },
       { $set: req.body },
       { new: true },
-      (err, card) => {
-        res.json(card);
+      (err, link) => {
+        res.json(link);
       },
     );
     }

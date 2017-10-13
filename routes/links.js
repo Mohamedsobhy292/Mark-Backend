@@ -17,7 +17,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), linkCtrl.addi
 /* MOVE LINK. */
 router.patch('/move/:id', passport.authenticate('jwt', { session: false }), linkCtrl.movingLink);
 
-/* MOVE LINK. */
+/* EDIT LINK. */
 router.patch('/:id', passport.authenticate('jwt', { session: false }), linkCtrl.editLink);
 
 /* DELETE LINK. */
