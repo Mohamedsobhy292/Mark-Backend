@@ -8,6 +8,10 @@ const linkSchema = new mongoose.Schema({
     required: 'Please check your name',
     trim: true,
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    required: 'no user specified',
+  },
   position: {
     type: Number,
   },
@@ -18,7 +22,6 @@ const linkSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Card',
     required: 'Card Id is required',
-
   },
   tag: {
     type: String,
@@ -27,6 +30,6 @@ const linkSchema = new mongoose.Schema({
     type: String,
     required: 'Please check your url',
     trim: true,
-  }
+  },
 });
 module.exports = mongoose.model('Link', linkSchema);

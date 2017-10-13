@@ -8,14 +8,16 @@ const Board = mongoose.model('Board');
 const Link = mongoose.model('Link');
 
 exports.gettingCards = async function gettingCards(req, res) {
-  const card = await Card.find();
+  const user = req.user;
+  const card = await Card.find({ userId: user.id });
   res.json(card);
 };
 
 exports.gettingSingleCard = async function gettingCards(req, res) {
+  const user = req.user;
   const id = req.params.id;
   try {
-    const card = await Card.findOne({ _id: id }).populate('links')
+    const card = await Card.findOne({ _id: id, userId: user.id }).populate('links');
     res.json(card);
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
@@ -29,15 +31,22 @@ exports.addCard = async function addCard(req, res) {
     position: req.body.position,
     color: req.body.color,
     boardId: req.body.boardId,
+    userId: req.user.id,
   });
   try {
-    await card.save();
-    await Board.findByIdAndUpdate(
-      card.boardId,
-      { $push: { cards: card._id } },
-      { safe: true, new: true },
-    );
-    res.json(card);
+    console.log(card);
+    const board = await Board.findOne({ _id: card.boardId, userId: req.user.id });
+    if (!board) {
+      res.status(400).send({ error: 401, message: 'You cant add to this board' });
+    } else {
+      await card.save();
+      await Board.findByIdAndUpdate(
+        card.boardId,
+        { $push: { cards: card._id } },
+        { safe: true, new: true },
+      );
+      res.json(card);
+    }
   } catch (e) {
     res.status(400).send({ message: e.errors });
   }
@@ -45,9 +54,14 @@ exports.addCard = async function addCard(req, res) {
 
 exports.deleteCard = async function deleteCard(req, res) {
   const id = req.params.id;
+  const user = req.user._id;
   try {
+    const cardtoodelete = await Card.findOne({ _id: id, userId: user });
+    if (!cardtoodelete) {
+      res.status(400).send({ error: 401, message: 'You cant delete this board' });
+    } else {
     // REMOVE CARD
-    Card.findByIdAndRemove(
+      Card.findByIdAndRemove(
       { _id: id },
       async (err, card) => {
         // REMOVE CARD ID FROM BOARD ARRAY
@@ -62,6 +76,7 @@ exports.deleteCard = async function deleteCard(req, res) {
         res.json(card);
       },
     );
+    }
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
   }
@@ -69,8 +84,13 @@ exports.deleteCard = async function deleteCard(req, res) {
 
 exports.editCard = async function editCard(req, res) {
   const id = req.params.id;
+  const user = req.user.id;
+  const cardtoedit = await Card.findOne({ _id: id, userId: user });
   try {
-    Card.findOneAndUpdate(
+    if (!cardtoedit) {
+      res.status(400).send({ error: 401, message: 'You cant edit this card' });
+    } else {
+      Card.findOneAndUpdate(
       { _id: id },
       { $set: req.body },
       { new: true },
@@ -78,6 +98,7 @@ exports.editCard = async function editCard(req, res) {
         res.json(card);
       },
     );
+    }
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
   }
@@ -85,15 +106,21 @@ exports.editCard = async function editCard(req, res) {
 
 exports.movingCard = async function movingCard(req, res) {
   const id = req.params.id;
+  const user = req.user;
+  const cardtomove = await Card.findOne({ _id: id, userId: user });
   try {
-    Card.findOneAndUpdate(
+    if (!cardtomove) {
+      res.status(400).send({ error: 401, message: 'You cant edit this card' });
+    } else {
+      Card.findOneAndUpdate(
       { _id: id },
-      { $set: { position: req.body.position }},
+      { $set: { position: req.body.position } },
       { new: true },
       (err, card) => {
         res.json(card);
       },
     );
+    }
   } catch (e) {
     res.status(400).send({ error: 400, message: e });
   }
