@@ -10,7 +10,7 @@ const boardSchema = new mongoose.Schema({
   },
   userId: {
     type: Schema.Types.ObjectId,
-    required: 'no user specified'
+    required: 'no user specified',
   },
   private: {
     type: Boolean,

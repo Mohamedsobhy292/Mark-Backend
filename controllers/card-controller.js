@@ -34,7 +34,6 @@ exports.addCard = async function addCard(req, res) {
     userId: req.user.id,
   });
   try {
-    console.log(card);
     const board = await Board.findOne({ _id: card.boardId, userId: req.user.id });
     if (!board) {
       res.status(400).send({ error: 401, message: 'You cant add to this board' });

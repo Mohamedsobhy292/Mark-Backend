@@ -1,26 +1,27 @@
 import express from 'express';
+import passport from 'passport';
 import linkCtrl from '../controllers/link-controller';
 
 const router = express.Router();
 
 
 /* GET ALL LINKS. */
-router.get('/', linkCtrl.getLinks);
+router.get('/', passport.authenticate('jwt', { session: false }), linkCtrl.getLinks);
 
 /* GET SINGLE LINK */
-router.get('/:id', linkCtrl.gettingSingleLink);
+router.get('/:id', passport.authenticate('jwt', { session: false }), linkCtrl.gettingSingleLink);
 
 /* ADD LINK. */
-router.post('/', linkCtrl.addingLink);
+router.post('/', passport.authenticate('jwt', { session: false }), linkCtrl.addingLink);
 
 /* MOVE LINK. */
-router.patch('/move/:id', linkCtrl.movingLink);
+router.patch('/move/:id', passport.authenticate('jwt', { session: false }), linkCtrl.movingLink);
 
 /* MOVE LINK. */
-router.patch('/:id', linkCtrl.editLink);
+router.patch('/:id', passport.authenticate('jwt', { session: false }), linkCtrl.editLink);
 
 /* DELETE LINK. */
-router.delete('/:id', linkCtrl.deleteLink);
+router.delete('/:id', passport.authenticate('jwt', { session: false }), linkCtrl.deleteLink);
 
 
 export default router;
