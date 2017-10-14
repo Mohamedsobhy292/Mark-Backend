@@ -5,6 +5,7 @@ import config from '../config';
 
 const User = mongoose.model('User');
 const JwtStrategy = require('passport-jwt').Strategy;
+const GoogleStrategy = require('passport-google-plus-token');
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const opts = {};
@@ -24,6 +25,17 @@ passport.use(new JwtStrategy(opts,
       return done(error, false);
     }
   },
+));
+
+passport.use('googleToken', new GoogleStrategy({
+  clientID: config.google.clientId,
+  clientSecret: config.google.secret,
+  callbackURL: 'http://localhost:4000/',
+},
+ (accessToken, refreshToken, profile, cb) => {
+  console.log(accessToken);
+  console.log(profile);
+},
 ));
 
 passport.use(new LocalStrategy(

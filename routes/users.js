@@ -9,5 +9,6 @@ router.post('/', userCtrl.signUp);
 
 // SIGN IN
 router.post('/signin', passport.authenticate('local', { session: false }), userCtrl.signIn);
+router.post('/signin/google', passport.authenticate('googleToken', { session: false }));
 
 module.exports = router;
