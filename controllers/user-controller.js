@@ -16,7 +16,7 @@ function signToken(user) {
   }, config.jwt.secret);
 }
 
-exports.signUp = function signUp(req, res) {
+exports.signUp = async function signUp(req, res) {
   const email = req.body.email;
   const password = req.body.password;
   const saltRounds = 10;
@@ -25,18 +25,25 @@ exports.signUp = function signUp(req, res) {
   if (!email || !password) {
     res.status(403).send({ error: 403, message: 'check your credintials' });
   }
+  const existingUser = await User.findOne({ 'local.email': email });
+  if (existingUser) {
+    res.status(403).send({ error: 403, message: 'user is already exists' });
+  }
   bcrypt.genSalt(saltRounds, (err, salt) => {
     bcrypt.hash(password, salt, async (err2, hash) => {
       const newUser = new User({
-        email,
-        password: hash,
+        method: 'local',
+        local: {
+          email,
+          password: hash,
+        },
       });
       try {
         await newUser.save();
         const token = signToken(newUser);
         res.json(token);
       } catch (error) {
-        res.status(403).send({ error: 403, message: 'mail is already exits' });
+        res.status(403).send({ error: 403, message: error });
       }
     });
   });

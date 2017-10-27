@@ -32,10 +32,27 @@ passport.use('googleToken', new GoogleStrategy({
   clientSecret: config.google.secret,
   callbackURL: 'http://localhost:4000/',
 },
- (accessToken, refreshToken, profile, cb) => {
-  console.log(accessToken);
-  console.log(profile);
-},
+ async (accessToken, refreshToken, profile, done) => {
+   try {
+     const userFound = await User.findOne({ 'google.id': profile.id }) ||
+     await User.findOne({ 'local.email': profile.emails[0].value });
+     if (userFound) {
+       return done(null, userFound);
+     } else {
+       const newUser = new User({
+         method: 'google',
+         google: {
+           id: profile.id,
+           email: profile.emails[0].value,
+         },
+       });
+       await newUser.save();
+       return done(null, newUser);
+     }
+   } catch (err) {
+     return done(err, false, err.message);
+   }
+ },
 ));
 
 passport.use(new LocalStrategy(
