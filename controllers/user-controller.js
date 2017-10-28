@@ -11,7 +11,7 @@ function signToken(user) {
     iss: 'marky',
     sub: user.id,
     iat: new Date().getTime(),
-    exp: Date.now() + (1 * 1000 * 60 * 60 * 24), // ADE ONE DAY
+    exp: Date.now() + (7 * 1000 * 60 * 60 * 24), // ADD ONE WEEK
 
   }, config.jwt.secret);
 }
@@ -54,3 +54,4 @@ exports.signIn = async function siginIn(req, res) {
   const token = signToken(user);
   res.json({ token });
 };
+
