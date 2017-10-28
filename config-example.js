@@ -1,7 +1,7 @@
 const config = {
   development: {
     database: {
-      url: 'mongodb//',
+      url: 'mongodb://localhost/marky',
     },
     server: {
       host: '127.0.0.1',
@@ -24,7 +24,15 @@ const config = {
     },
   },
   jwt: {
-    secret: 'secret',
+    secret: 'jwtsecret',
+  },
+  google: {
+    clientId: 'googleClientId',
+    secret: 'googleSecret',
+  },
+  facebook: {
+    clientId: 'facebookClientId',
+    secret: 'facebookSecret',
   },
 };
 module.exports = config;
